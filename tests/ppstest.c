@@ -23,33 +23,37 @@
 
 */
 
-#define F_CPU 10000000			// Standard OCXO frequency
-#define __AVR_ATmega32A__ 1
+/*
+	In pps.c there is a calculation of the frequency error tolerance in 
+	Hertz based on the number of parts per million of F_CPU. This
+	seemingly simple calculation is made difficult by the large
+	numbers. I have chosen a simple way to do this, although everything
+	is rounded to the nearest 100 ppm. 
 
+	There's probably a better way to do this but this rounding
+	doesn't have any material impact on the operation of the device.
+
+	This code was used to test the calculation before putting it into
+	the MCU firmware where it is harder to test.
+*/
+
+
+#define F_CPU 4000000			// Standard OCXO frequency
+#define TOLERANCE 15000			// 15000 ppm tolerance
 #include <stdio.h>
 #include <stdint.h>
-#include "../source/serial.h"		// Long calculations of CPU speed table.
-
-static uint16_t bps_div[BPS_LEN] =
-{
-        UBRR_1200,
-        UBRR_2400,
-        UBRR_4800,
-        UBRR_9600,
-        UBRR_19200,
-        UBRR_38400,
-        UBRR_57600,
-        UBRR_115200
-};
 
 int main()
 {
-	uint32_t speed = 1200;
+	int32_t ppserr;
+	int32_t ppserr_max;
+	int8_t  ppsint;
+	uint32_t tolerance;
 
-	printf("Register settings for CPU Speed %i\n", F_CPU);
-	for (int i=0; i<BPS_LEN; i++)
-	{
-	    printf("Speed: %6i, UBBRH: %5i, UBBRLL: %5i\n", speed, (bps_div[i] >> 8) & 0xFF, bps_div[i] & 0xFF);
-	    speed *= 2;
-	};
+	tolerance = TOLERANCE;
+
+	ppserr_max = (tolerance + 99) / 100 * (F_CPU / 100) / 100;
+	printf("F_CPU = %li\n", F_CPU);
+	printf("Tolerance = %i\n", TOLERANCE);
+	printf("ppserr_max = %li\n", ppserr_max);
 };

@@ -19,7 +19,7 @@
 Under development
 =================
 
-Using the 1PPS signal from a GPS receiver, this software, designed for an
+Using the 1PPS signal from a GPS receiver, this software, designed for a
 Microchip (f.k.a. AVR) ATMEGA 32A MCU, measures the frequency of its own
 clock. This allows measurement at the maximum speed of the CPU (16 MHz at
 5V, and about 10.6 MHz at 3.3V), rather than 40% of the CPU speed if a
@@ -74,3 +74,10 @@ FAQ
    My Elecraft K3 has a 10MHz reference input and I plan to use it. In future
    I'll be working my way up from the 6 metre band to much higher frequencies
    and a frequency reference is a great asset in the microwave band.
+
+3. Why isn't this project finished? The eBay OXCO that I bought several years
+   ago is not only off-frequency, but the voltage output is way below spec.
+   I found that by lowering the supply voltage to 8.24V I could drag the 
+   frequency down although the waveform was a bit distorted, but would need
+   to build an amplifier to bring the voltage up. That seems like a waste of
+   time so I'm shelving this for a few months then I will buy a new OCXO.

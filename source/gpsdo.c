@@ -82,14 +82,15 @@ int main(void)
 	led_init();
 
 	// Initialize serial output, clear screen, print banner
-	serial_init(2);
+	serial_init(1);
 	serial_printf("%c[2JGPSDO V0\r\n\n", 27);
 
 	// Initialize timer
 	time_init();
 
 	// Start counting CPU cycles between PPS pulses
-	pps_init();
+	// TBA - tolerance (in ppm) should be adjusted depending on the clock type
+	pps_init(150000);
 
 	// Initialize serial peripheral interface to communicate to Pi
 	spi_init();

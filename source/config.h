@@ -31,11 +31,12 @@
 #include <avr/io.h>
 
 // CPU Speed
-//#define F_CPU  8000000
+//#define F_CPU  8000000				// Internal RC Clock 8MHz
 //#define F_CPU 10000000			// Eventual frequency for OCXO
 //#define F_CPU 12000000			// Leftover crystal from VE3HII project
 //#define F_CPU   14247000			// Latest random crystal
-#define F_CPU 4000000
+#define F_CPU 4000000				// Old crystal - 4.000445 MHz
+//#define F_CPU 7023000				// Crystal from Pixie Transceiver
 
 /*
  * Oven controlled oscillator parameters. Warmup time is from system boot and no adjustments will be made until that time has passed unless

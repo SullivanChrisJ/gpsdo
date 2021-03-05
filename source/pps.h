@@ -30,6 +30,6 @@
 
 #include <stdint.h>
 
-uint8_t pps_init(void);
+uint8_t pps_init(uint32_t);
 
 #endif /* GPSDO_H_ */

@@ -1,0 +1,28 @@
+Bugs, incompatilities, etc.
+===========================
++ The RC Oscillator is too far off frequency at 8MHz when the processor is at 3.3V. It is not required for
+  the final configuration but is interesting to test. The Oscillator could be brought closer to its nominal
+  speed by using the Oscillator Calibration Register (OSCCAL). I had to relax the required accuracy of the
+  per-second clock measurements to get the oscillator timings to be sent over the SPI even at 4MHz.
+
+* If I reload the MCU with avrdude, the SPI communications utility/gpsdo.py returns all zeros from the MCU.
+  Rebooting the Pi is the only thing that fixes it.
+
+Unfininished business
+=====================
+
++ PID control is needed for the OCXO, which also means analogue output is needed to drive the control input.
++ gpsdo.py could do more communication with the SPI bus. E.g. For testing PID control, it might be useful to
+  implement the control in the Raspberry Pi first, sending instructions over the SPI bus.
++ It would be nice to have a daemon to output selected NMEA strings on the serial port for devices like my
+  IC-7100 which can accept them for setting the time and location. The gpspipe utility will at least send
+  them to stdout, where they can be redirected.
++ Need a circuit diagram and instructions for configuration of gpsd and ntpd with this setup.
+
+Tidying
+=======
+
++ The LED flashers aren't necessary.
++ The serial port output from the MCU isn't really necessary. Everything should be done with the SPI bus.
++ The massive macros for computing serial port speeds could be changed to calculations made at startup, which
+  are not so  onerous that they would siginficantly affect startup time if done at run-time.

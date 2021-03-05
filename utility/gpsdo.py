@@ -93,11 +93,11 @@ class spiman():
                 if resp[l-1] == END:
                     r = resp[:l]
                     resp = self.strip(resp[l:])
-                    cmd['fn'](*struct.unpack("<BIBhB", r))
+                    cmd['fn'](*struct.unpack("<BIBiB", r))
                     self.fragment = resp
                     return len(resp) > 0
 
-            print(f"Resynchronizing - resp: {resp}, frag: {self.fragment}, len={resplen}")
+            print(f"Resynchronizing - resp: {list(resp)}, frag: {list(self.fragment)}, len={resplen}")
             print(fullresp)
             self.fragment = bytes()
             self.resync = True
@@ -106,8 +106,8 @@ class spiman():
 if __name__ == '__main__':
     # cmds structure defines the available message types
     cmds = {1: {'name': 'Oscillator Interval',
-                'decoder': '<BIBhB',
-                'len': 9,
+                'decoder': '<BIBiB',
+                'len': 11,
                 'fn': lambda cmd, fcpu, interval, variance, end: \
                           print(f"F_CPU: {fcpu}, Interval {interval}, Variance: {variance}"),
                },

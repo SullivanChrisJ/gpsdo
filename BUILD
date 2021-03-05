@@ -1,8 +1,13 @@
-# FUSE
-# sudo avrdude -c linuxgpio -U lfuse:w:0xcf:m -U hfuse:w:0x99:m
+# FUSE for external crystal
+# sudo avrdude -c linuxgpio -p atmega32 -U lfuse:w:0xcf:m -U hfuse:w:0x99:m
 # hfuse: Disable OCD, Enable JTAG, Enable SPI, CKOPT unprogrammed, 
 #	 EEPROM not preserved thru erase, Boot size 2048 words, No boot reset vector
 # lfuse: Brown out detector disabled, startup time: 65ms, External Crystal/Ceramic Clock
+#
+# FUSE for 8MHz RC Oscillator (Runs too slow on 3.3V)
+# sudo avrdude -c -p atmega32 linuxgpio -U lfuse:w:0xd4:m -U hfuse:w:0x99:m
+# hfuse: Disable OCD, Enable JTAG, Enable SPI, CKOPT unprogrammed
+# lfuse: Disable BOD, 65ms startup time, CKSEL 0,1,&3 8MHz RC
 # END FUSE
 avr-gcc -Os -mmcu=atmega32a -I/usr/lib/avr/include -c source/gpsdo.c
 avr-gcc -Os -mmcu=atmega32a -I/usr/lib/avr/include -c source/time.c
@@ -19,4 +24,4 @@ avr-objcopy -j .text -j .data -O ihex gpsdo.elf gpsdo.hex
 #avr-objdump -h -S gpsdo.elf > gpsdo.dump
 rm gpsdo.elf
 #For programming the AVR in my environment over the SPI interface
-#sudo avrdude -p atmega32 -c linuxgpio -U flash:w:gpsdo.hex
+#sudo avrdude -c linuxgpio -p atmega32 -U flash:w:gpsdo.hex
